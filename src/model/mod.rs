@@ -26,11 +26,12 @@ pub struct Position {
     pub name: String,
     pub country: String,
     pub dept: Option<String>,
-    #[serde(default)]
-    pub rain_product_available: u8,
+    #[serde(default, deserialize_with = "de::bool")]
+    pub rain_product_available: bool,
     pub timezone: String,
     pub insee: Option<String>,
-    pub bulletin_cote: Option<u8>,
+    #[serde(default, deserialize_with = "de::bool")]
+    pub bulletin_cote: bool,
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]

@@ -1,9 +1,16 @@
+use serde::Deserialize;
+
+pub fn bool<'de, D>(deserializer: D) -> Result<bool, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    u8::deserialize(deserializer).map(|x| x == 1)
+}
+
 pub fn rain_snow_limit<'de, D>(deserializer: D) -> Result<Option<u32>, D::Error>
 where
     D: serde::Deserializer<'de>,
 {
-    use serde::Deserialize;
-
     #[derive(serde::Deserialize)]
     #[serde(untagged)]
     enum RainShowLimit {
@@ -27,8 +34,6 @@ pub fn timestamp<'de, D>(deserializer: D) -> Result<chrono::NaiveDateTime, D::Er
 where
     D: serde::Deserializer<'de>,
 {
-    use serde::Deserialize;
-
     let timestamp = i64::deserialize(deserializer)?;
 
     chrono::NaiveDateTime::from_timestamp_opt(timestamp, 0)

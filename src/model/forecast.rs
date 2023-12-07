@@ -65,7 +65,8 @@ pub struct ProbabilityData {
     pub dt: u32,
     pub rain: std::collections::BTreeMap<String, Option<f32>>,
     pub snow: std::collections::BTreeMap<String, Option<u16>>,
-    pub freezing: u8,
+    #[serde(deserialize_with = "super::de::bool")]
+    pub freezing: bool,
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
