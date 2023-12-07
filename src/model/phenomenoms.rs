@@ -1,8 +1,10 @@
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Phenomenoms {
-    pub update_time: u32,
-    pub end_validity_time: u32,
+    #[serde(deserialize_with = "super::de::timestamp")]
+    pub update_time: chrono::NaiveDateTime,
+    #[serde(deserialize_with = "super::de::timestamp")]
+    pub end_validity_time: chrono::NaiveDateTime,
     pub domain_id: String,
     pub phenomenons_max_colors: Vec<Color>,
 }

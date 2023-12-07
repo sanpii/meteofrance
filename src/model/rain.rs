@@ -2,7 +2,8 @@
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Rain {
     pub position: super::Position,
-    pub updated_on: u32,
+    #[serde(deserialize_with = "super::de::timestamp")]
+    pub updated_on: chrono::NaiveDateTime,
     pub forecast: Vec<Forecast>,
     pub quality: u8,
 }
@@ -10,7 +11,8 @@ pub struct Rain {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Forecast {
-    pub dt: u32,
+    #[serde(deserialize_with = "super::de::timestamp")]
+    pub dt: chrono::NaiveDateTime,
     pub rain: u8,
     pub desc: String,
 }

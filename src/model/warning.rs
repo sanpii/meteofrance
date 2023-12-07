@@ -1,8 +1,10 @@
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Warning {
-    pub update_time: u32,
-    pub end_validity_time: u32,
+    #[serde(deserialize_with = "super::de::timestamp")]
+    pub update_time: chrono::NaiveDateTime,
+    #[serde(deserialize_with = "super::de::timestamp")]
+    pub end_validity_time: chrono::NaiveDateTime,
     pub domain_id: String,
     pub color_max: u16,
     pub timelaps: Vec<Timelap>,
@@ -25,8 +27,10 @@ pub struct Timelap {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct TimelapsItem {
-    pub begin_time: u32,
-    pub end_time: u32,
+    #[serde(deserialize_with = "super::de::timestamp")]
+    pub begin_time: chrono::NaiveDateTime,
+    #[serde(deserialize_with = "super::de::timestamp")]
+    pub end_time: chrono::NaiveDateTime,
     pub color_id: u16,
 }
 

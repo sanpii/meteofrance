@@ -50,35 +50,13 @@ pub struct Data {
     #[serde(default)]
     pub snow: std::collections::BTreeMap<String, f32>,
     pub iso0: Option<i32>,
-    #[serde(rename = "rain snow limit", deserialize_with = "rain_snow_limit")]
+    #[serde(
+        rename = "rain snow limit",
+        deserialize_with = "super::de::rain_snow_limit"
+    )]
     pub rain_snow_limit: Option<u32>,
     pub clouds: Option<u32>,
     pub weather: Weather,
-}
-
-fn rain_snow_limit<'de, D>(deserializer: D) -> Result<Option<u32>, D::Error>
-where
-    D: serde::Deserializer<'de>,
-{
-    use serde::Deserialize;
-
-    #[derive(serde::Deserialize)]
-    #[serde(untagged)]
-    enum RainShowLimit {
-        Desc(Option<String>),
-        Value(u32),
-    }
-
-    impl From<RainShowLimit> for Option<u32> {
-        fn from(value: RainShowLimit) -> Self {
-            match value {
-                RainShowLimit::Desc(_) => None,
-                RainShowLimit::Value(v) => Some(v),
-            }
-        }
-    }
-
-    RainShowLimit::deserialize(deserializer).map(Into::into)
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
@@ -115,8 +93,10 @@ pub struct Temperature {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Sun {
-    rise: u32,
-    set: u32,
+    #[serde(deserialize_with = "super::de::timestamp")]
+    rise: chrono::NaiveDateTime,
+    #[serde(deserialize_with = "super::de::timestamp")]
+    set: chrono::NaiveDateTime,
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
