@@ -25,6 +25,10 @@ impl Observation {
         self.properties.gridded.wind_speed
     }
 
+    pub fn wind_direction(&self) -> i32 {
+        self.properties.gridded.wind_direction
+    }
+
     pub fn wind_icon(&self) -> &str {
         self.properties.gridded.wind_icon.as_str()
     }
