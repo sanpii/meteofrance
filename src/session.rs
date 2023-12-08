@@ -1,6 +1,7 @@
 pub(crate) static METEOFRANCE_API_URL: &str = "https://webservice.meteofrance.com";
 pub(crate) static METEOFRANCE_API_TOKEN: &str = "__Wj7dVSTjV9YGu1guveLyDq0g7S7TfTjaHBTPTpO0kj8__";
 
+#[derive(Clone, Debug)]
 pub(crate) struct Session {
     access_token: String,
     client: reqwest::blocking::Client,
