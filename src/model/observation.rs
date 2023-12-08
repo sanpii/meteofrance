@@ -42,8 +42,8 @@ impl Observation {
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Geometry {
     #[serde(rename = "type")]
-    ty: String,
-    coordinates: Vec<f32>,
+    pub ty: String,
+    pub coordinates: Vec<f32>,
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]

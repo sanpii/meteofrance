@@ -104,48 +104,48 @@ pub struct ProbabilityData {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct DailyTemperature {
-    min: Option<f32>,
-    max: Option<f32>,
-    sea: Option<f32>,
+    pub min: Option<f32>,
+    pub max: Option<f32>,
+    pub sea: Option<f32>,
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Humidity {
-    min: Option<f32>,
-    max: Option<f32>,
+    pub min: Option<f32>,
+    pub max: Option<f32>,
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Temperature {
-    value: Option<f32>,
-    windchill: Option<f32>,
+    pub value: Option<f32>,
+    pub windchill: Option<f32>,
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Sun {
     #[serde(deserialize_with = "super::de::timestamp")]
-    rise: chrono::NaiveDateTime,
+    pub rise: chrono::NaiveDateTime,
     #[serde(deserialize_with = "super::de::timestamp")]
-    set: chrono::NaiveDateTime,
+    pub set: chrono::NaiveDateTime,
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Wind {
-    speed: Option<u8>,
-    gust: Option<u8>,
-    direction: Option<i16>,
-    icon: Option<String>,
+    pub speed: Option<u8>,
+    pub gust: Option<u8>,
+    pub direction: Option<i16>,
+    pub icon: Option<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Weather {
-    icon: Option<String>,
-    desc: Option<String>,
+    pub icon: Option<String>,
+    pub desc: Option<String>,
 }
 
 #[cfg(test)]
