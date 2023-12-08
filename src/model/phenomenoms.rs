@@ -10,7 +10,7 @@ pub struct Phenomenoms {
 }
 
 impl Phenomenoms {
-    pub fn domain_max_color(&self) -> u8 {
+    pub fn domain_max_color(&self) -> u16 {
         self.phenomenons_max_colors
             .iter()
             .map(|x| x.phenomenon_max_color_id)
@@ -23,7 +23,7 @@ impl Phenomenoms {
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Color {
     pub phenomenon_id: String,
-    pub phenomenon_max_color_id: u8,
+    pub phenomenon_max_color_id: u16,
 }
 
 #[cfg(test)]
