@@ -42,9 +42,6 @@ pub struct Error {
 }
 
 #[derive(Clone, Debug, PartialEq)]
-pub(crate) struct Picture1 {}
-
-#[derive(Clone, Debug, PartialEq)]
 pub struct Picture {
     pub image_url: String,
     pub description: String,
