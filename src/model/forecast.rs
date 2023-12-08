@@ -154,7 +154,7 @@ mod test {
     fn france() -> crate::Result {
         let client = crate::Client::default();
 
-        let forecast = client.forecast(48.8075, 2.24028, None);
+        let forecast = client.forecast(48.8075, 2.24028);
         assert!(dbg!(forecast).is_ok());
 
         Ok(())
@@ -164,7 +164,7 @@ mod test {
     fn world() -> crate::Result {
         let client = crate::Client::default();
 
-        let forecast = client.forecast(45.5016889, 73.567256, None)?;
+        let forecast = client.forecast(45.5016889, 73.567256)?;
 
         let now = chrono::Utc::now().naive_utc();
 
@@ -206,7 +206,7 @@ mod test {
             post_code: Some("74220".to_string()),
         };
 
-        let forecast = client.forecast_for_place(&place, None);
+        let forecast = client.forecast_for_place(&place);
         assert!(dbg!(forecast).is_ok());
 
         Ok(())

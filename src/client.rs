@@ -1,16 +1,18 @@
 pub struct Client {
     session: crate::Session,
+    language: String,
 }
 
 impl Default for Client {
     fn default() -> Self {
-        Self::new(None)
+        Self::new(None, None)
     }
 }
 
 impl Client {
-    pub fn new(access_token: Option<&str>) -> Self {
+    pub fn new(access_token: Option<&str>, language: Option<&str>) -> Self {
         Self {
+            language: language.unwrap_or("fr").to_string(),
             session: crate::Session::new(access_token),
         }
     }
@@ -42,83 +44,60 @@ impl Client {
 
     /**
      * Retrieve the weather observation for a given GPS location.
-     *
-     * Results can be fetched in french (default) or english according to the language parameter.
      */
     pub fn observation(
         &self,
         latitude: f32,
         longitude: f32,
-        language: Option<&str>,
     ) -> crate::Result<crate::model::Observation> {
         let mut params = std::collections::HashMap::new();
         params.insert("lon", longitude.to_string());
         params.insert("lat", latitude.to_string());
-        params.insert("lang", language.unwrap_or("fr").to_string());
+        params.insert("lang", self.language.clone());
 
         self.session.get("v2/observation", &params)
     }
 
     /**
      * Retrieve the weather observation for a given Place instance.
-     *
-     * Results can be fetched in french (default) or english according to the language parameter.
      */
     pub fn observation_for_place(
         &self,
         place: &crate::model::Place,
-        language: Option<&str>,
     ) -> crate::Result<crate::model::Observation> {
-        self.observation(place.lat, place.lon, language)
+        self.observation(place.lat, place.lon)
     }
 
     /**
      * Retrieve the weather forecast for a given GPS location.
-     *
-     * Results can be fetched in french (default) or english according to the language parameter.
      */
-    pub fn forecast(
-        &self,
-        latitude: f32,
-        longitude: f32,
-        language: Option<&str>,
-    ) -> crate::Result<crate::model::Forecast> {
+    pub fn forecast(&self, latitude: f32, longitude: f32) -> crate::Result<crate::model::Forecast> {
         let mut params = std::collections::HashMap::new();
         params.insert("lon", longitude.to_string());
         params.insert("lat", latitude.to_string());
-        params.insert("lang", language.unwrap_or("fr").to_string());
+        params.insert("lang", self.language.clone());
 
         self.session.get("forecast", &params)
     }
 
     /**
      * Retrieve the weather forecast for a given Place instance.
-     *
-     * Results can be fetched in french (default) or english according to the language parameter.
      */
     pub fn forecast_for_place(
         &self,
         place: &crate::model::Place,
-        language: Option<&str>,
     ) -> crate::Result<crate::model::Forecast> {
-        self.forecast(place.lat, place.lon, language)
+        self.forecast(place.lat, place.lon)
     }
 
     /**
      * Retrieve the next 1 hour rain forecast for a given GPS the location.
-     *
-     * Results can be fetched in french (default) or english according to the language parameter.
      */
-    pub fn rain(
-        &self,
-        latitude: f32,
-        longitude: f32,
-        language: Option<&str>,
-    ) -> crate::Result<crate::model::Rain> {
+    pub fn rain(&self, latitude: f32, longitude: f32) -> crate::Result<crate::model::Rain> {
         let mut params = std::collections::HashMap::new();
         params.insert("lon", longitude.to_string());
         params.insert("lat", latitude.to_string());
-        params.insert("lang", language.unwrap_or("fr").to_string());
+        params.insert("lang", self.language.clone());
 
         self.session.get("rain", &params)
     }
@@ -215,12 +194,9 @@ impl Client {
      * This dictionary includes information about various meteorological
      * phenomena and color codes used for weather warnings.
      */
-    pub fn warning_dictionary(
-        &self,
-        language: Option<&str>,
-    ) -> crate::Result<crate::model::Dictionary> {
+    pub fn warning_dictionary(&self) -> crate::Result<crate::model::Dictionary> {
         let mut params = std::collections::HashMap::new();
-        params.insert("lang", language.unwrap_or("fr").to_string());
+        params.insert("lang", self.language.clone());
 
         self.session.get("v3/warning/dictionary", &params)
     }

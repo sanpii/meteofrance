@@ -22,7 +22,7 @@ mod test {
     #[test]
     fn get() -> crate::Result {
         let client = crate::Client::default();
-        let rain = client.rain(48.8075, 2.24028, None);
+        let rain = client.rain(48.8075, 2.24028);
 
         assert!(dbg!(rain).is_ok());
 
@@ -32,7 +32,7 @@ mod test {
     #[test]
     fn not_covered() -> crate::Result {
         let client = crate::Client::default();
-        let rain = client.rain(45.508, -73.58, None);
+        let rain = client.rain(45.508, -73.58);
 
         assert!(rain.is_err());
 

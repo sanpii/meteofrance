@@ -51,7 +51,7 @@ mod test {
     #[test]
     fn get() -> crate::Result {
         let client = crate::Client::default();
-        let dictionary = client.warning_dictionary(None);
+        let dictionary = client.warning_dictionary();
 
         assert!(dbg!(dictionary).is_ok());
 
@@ -61,7 +61,7 @@ mod test {
     #[test]
     fn phenomenon_by_id() -> crate::Result {
         let client = crate::Client::default();
-        let dictionary = client.warning_dictionary(None)?;
+        let dictionary = client.warning_dictionary()?;
 
         assert_eq!(
             dictionary.phenomenon_by_id(1),
@@ -77,7 +77,7 @@ mod test {
     #[test]
     fn phenomenon_name_by_id() -> crate::Result {
         let client = crate::Client::default();
-        let dictionary = client.warning_dictionary(None)?;
+        let dictionary = client.warning_dictionary()?;
 
         assert_eq!(
             dictionary.phenomenon_name_by_id(2),
@@ -90,7 +90,7 @@ mod test {
     #[test]
     fn color_by_id() -> crate::Result {
         let client = crate::Client::default();
-        let dictionary = client.warning_dictionary(None)?;
+        let dictionary = client.warning_dictionary()?;
 
         assert_eq!(
             dictionary.color_by_id(1),
@@ -108,7 +108,7 @@ mod test {
     #[test]
     fn color_name_by_id() -> crate::Result {
         let client = crate::Client::default();
-        let dictionary = client.warning_dictionary(None)?;
+        let dictionary = client.warning_dictionary()?;
 
         assert_eq!(dictionary.color_name_by_id(1), Some("vert"));
 

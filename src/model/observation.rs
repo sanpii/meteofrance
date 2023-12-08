@@ -72,7 +72,7 @@ mod test {
     fn france() -> crate::Result {
         let client = crate::Client::default();
 
-        let rain = client.observation(48.8075, 2.24028, None);
+        let rain = client.observation(48.8075, 2.24028);
         assert!(dbg!(rain).is_ok());
 
         Ok(())
@@ -82,7 +82,7 @@ mod test {
     fn world() -> crate::Result {
         let client = crate::Client::default();
 
-        let rain = client.observation(45.5016889, 73.567256, None);
+        let rain = client.observation(45.5016889, 73.567256);
         assert!(rain.is_err());
 
         Ok(())
@@ -103,7 +103,7 @@ mod test {
             post_code: Some("74220".to_string()),
         };
 
-        let rain = client.observation_for_place(&place, None);
+        let rain = client.observation_for_place(&place);
         assert!(dbg!(rain).is_ok());
 
         Ok(())
