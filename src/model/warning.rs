@@ -13,8 +13,8 @@ pub struct Warning {
     pub consequences: Option<String>,
     pub max_count_items: Option<usize>,
     pub comments: Comments,
-    pub text: Option<String>,
-    pub text_avalanche: Option<String>,
+    pub text: Option<Text>,
+    pub text_avalanche: Option<Text>,
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
@@ -38,6 +38,46 @@ pub struct TimelapsItem {
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Comments {
     pub title: String,
+    pub text: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, serde::Deserialize)]
+#[cfg_attr(test, serde(deny_unknown_fields))]
+pub struct Text {
+    pub bloc_title: String,
+    pub text_bloc_item: Vec<TextBloc>,
+}
+
+#[derive(Clone, Debug, PartialEq, serde::Deserialize)]
+#[cfg_attr(test, serde(deny_unknown_fields))]
+pub struct TextBloc {
+    pub type_name: String,
+    pub text_items: Vec<TextItem>,
+}
+
+#[derive(Clone, Debug, PartialEq, serde::Deserialize)]
+#[cfg_attr(test, serde(deny_unknown_fields))]
+pub struct TextItem {
+    pub type_code: String,
+    pub hazard_code: Option<String>,
+    pub hazard_name: String,
+    pub term_items: Vec<TermItem>,
+}
+
+#[derive(Clone, Debug, PartialEq, serde::Deserialize)]
+#[cfg_attr(test, serde(deny_unknown_fields))]
+pub struct TermItem {
+    pub term_names: String,
+    pub start_time: String,
+    pub end_time: String,
+    pub risk_name: String,
+    pub subdivision_text: Vec<SubdivisionText>,
+}
+
+#[derive(Clone, Debug, PartialEq, serde::Deserialize)]
+#[cfg_attr(test, serde(deny_unknown_fields))]
+pub struct SubdivisionText {
+    pub underline_text: String,
     pub text: Vec<String>,
 }
 
