@@ -62,7 +62,11 @@ pub struct DailyData {
     pub humidity: Humidity,
     pub precipitation: std::collections::BTreeMap<String, Option<f32>>,
     pub uv: Option<u32>,
-    #[serde(rename = "weather12H")]
+    #[serde(
+        default,
+        rename = "weather12H",
+        deserialize_with = "super::de::weather"
+    )]
     pub weather_12h: Option<Weather>,
     pub sun: Sun,
 }
@@ -87,7 +91,8 @@ pub struct Data {
     )]
     pub rain_snow_limit: Option<u32>,
     pub clouds: Option<u32>,
-    pub weather: Weather,
+    #[serde(deserialize_with = "super::de::weather")]
+    pub weather: Option<Weather>,
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
@@ -144,8 +149,8 @@ pub struct Wind {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Weather {
-    pub icon: Option<String>,
-    pub desc: Option<String>,
+    pub icon: String,
+    pub desc: String,
 }
 
 #[cfg(test)]

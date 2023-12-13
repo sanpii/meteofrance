@@ -39,3 +39,27 @@ where
     chrono::NaiveDateTime::from_timestamp_opt(timestamp, 0)
         .ok_or_else(|| serde::de::Error::custom(format!("Invalid timestamp: {timestamp}")))
 }
+
+pub fn weather<'de, D>(deserializer: D) -> Result<Option<crate::model::forecast::Weather>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    #[derive(serde::Deserialize)]
+    struct WeatherNull {
+        icon: Option<String>,
+        desc: Option<String>,
+    }
+
+    let Some(weather) = Option::<WeatherNull>::deserialize(deserializer)? else {
+        return Ok(None);
+    };
+
+    if weather.icon.is_none() && weather.desc.is_none() {
+        Ok(None)
+    } else {
+        Ok(Some(crate::model::forecast::Weather {
+            icon: weather.icon.unwrap(),
+            desc: weather.desc.unwrap(),
+        }))
+    }
+}
