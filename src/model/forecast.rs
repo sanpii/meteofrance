@@ -15,7 +15,7 @@ impl Forecast {
      * Return the forecast for today.
      */
     pub fn today_forecast(&self) -> Option<&DailyData> {
-        self.daily_forecast.get(0)
+        self.daily_forecast.first()
     }
 
     /**
