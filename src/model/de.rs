@@ -36,7 +36,8 @@ where
 {
     let timestamp = i64::deserialize(deserializer)?;
 
-    chrono::NaiveDateTime::from_timestamp_opt(timestamp, 0)
+    chrono::DateTime::from_timestamp(timestamp, 0)
+        .map(|x| x.naive_local())
         .ok_or_else(|| serde::de::Error::custom(format!("Invalid timestamp: {timestamp}")))
 }
 
