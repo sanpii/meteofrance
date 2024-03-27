@@ -1,3 +1,5 @@
+#![warn(warnings)]
+
 pub mod model;
 
 mod client;
