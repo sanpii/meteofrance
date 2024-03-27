@@ -14,6 +14,7 @@ where
     #[derive(serde::Deserialize)]
     #[serde(untagged)]
     enum RainShowLimit {
+        #[allow(dead_code)]
         Desc(Option<String>),
         Value(u32),
     }
