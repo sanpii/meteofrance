@@ -7,7 +7,7 @@ description = "Client for for Météo-France API"
 repository = "https://github.com/sanpii/meteofrance"
 
 [dependencies]
-thiserror = "1.0"
+thiserror = "2.0"
 
 [dependencies.chrono]
 version = "0.4"
