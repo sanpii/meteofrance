@@ -45,7 +45,7 @@ mod test {
     ]
 }"#;
 
-        let phenomenoms: crate::model::Phenomenoms = serde_json::from_str(&json).unwrap();
+        let phenomenoms: crate::model::Phenomenoms = serde_json::from_str(json).unwrap();
         assert_eq!(phenomenoms.domain_max_color(), 3);
 
         let client = crate::Client::default();
