@@ -83,7 +83,7 @@ pub struct Data {
     pub wind: Wind,
     pub rain: std::collections::BTreeMap<String, Option<f32>>,
     #[serde(default)]
-    pub snow: std::collections::BTreeMap<String, f32>,
+    pub snow: std::collections::BTreeMap<String, Option<f32>>,
     pub iso0: Option<i32>,
     #[serde(
         rename = "rain snow limit",
