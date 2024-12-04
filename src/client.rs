@@ -48,8 +48,8 @@ impl Client {
      */
     pub fn observation(
         &self,
-        latitude: f32,
-        longitude: f32,
+        latitude: f64,
+        longitude: f64,
     ) -> crate::Result<crate::model::Observation> {
         let mut params = std::collections::HashMap::new();
         params.insert("lon", longitude.to_string());
@@ -72,7 +72,7 @@ impl Client {
     /**
      * Retrieve the weather forecast for a given GPS location.
      */
-    pub fn forecast(&self, latitude: f32, longitude: f32) -> crate::Result<crate::model::Forecast> {
+    pub fn forecast(&self, latitude: f64, longitude: f64) -> crate::Result<crate::model::Forecast> {
         let mut params = std::collections::HashMap::new();
         params.insert("lon", longitude.to_string());
         params.insert("lat", latitude.to_string());

@@ -169,7 +169,7 @@ mod test {
     fn world() -> crate::Result {
         let client = crate::Client::default();
 
-        let forecast = client.forecast(45.5016889, 73.567256)?;
+        let forecast = client.forecast(45.501689, 73.567256)?;
 
         let now = chrono::Utc::now().naive_utc();
 
