@@ -1,7 +1,7 @@
 [package]
 name = "meteofrance"
 version = "0.3.0"
-edition = "2021"
+edition = "2024"
 license = "MIT"
 description = "Client for for Météo-France API"
 repository = "https://github.com/sanpii/meteofrance"
