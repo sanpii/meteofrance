@@ -106,16 +106,14 @@ impl Client {
     /**
      * Return the current weather phenomenoms (or alerts) for a given domain.
      *
-     * - `domain`: could be `france` or any metropolitan France department numbers on
-     *     two digits. For some departments you can access an additional bulletin
-     *     for coastal phenomenoms. To access it add `10` after the domain id
-     *     (example: `1310`).
-     * - `depth`: Optional; To be used with domain = 'france'. With depth = 0 the
-     *     results will show only natinal sum up of the weather alerts. If
-     *     depth = 1, you will have in addition, the bulletin for all metropolitan
-     *     France department and Andorre
-     * - `with_coastal_bulletin`: Optional; If set to True (default is False), you can
-     *     get the basic bulletin and coastal bulletin merged.
+     * - `domain`: could be `france` or any metropolitan France department numbers on two digits.
+     *   For some departments you can access an additional bulletin for coastal phenomenoms. To
+     *   access it add `10` after the domain id (example: `1310`).
+     * - `depth`: Optional; To be used with domain = 'france'. With depth = 0 the results will
+     *   show only natinal sum up of the weather alerts. If depth = 1, you will have in addition,
+     *   the bulletin for all metropolitan France department and Andorre
+     * - `with_coastal_bulletin`: Optional; If set to True (default is False), you can get the
+     *   basic bulletin and coastal bulletin merged.
      */
     pub fn warning_current_phenomenoms(
         &self,
@@ -148,12 +146,11 @@ impl Client {
      * For a given domain we can access the maximum alert, a timelaps of the alert
      * evolution for the next 24 hours, a list of alerts and other metadatas.
      *
-     * - `domain`: could be `france` or any metropolitan France department numbers on
-     *      two digits. For some departments you can access an additional bulletin
-     *      for coastal phenomenoms. To access it add `10` after the domain id
-     *      (example: `1310`).
-     * - `with_coastal_bulletin`: Optional; If set to True (default is False), you can
-     *      get the basic bulletin and coastal bulletin merged.
+     * - `domain`: could be `france` or any metropolitan France department numbers on two digits.
+     *   For some departments you can access an additional bulletin for coastal phenomenoms. To
+     *   access it add `10` after the domain id (example: `1310`).
+     * - `with_coastal_bulletin`: Optional; If set to True (default is False), you can get the
+     *   basic bulletin and coastal bulletin merged.
      */
     pub fn warning_full(
         &self,

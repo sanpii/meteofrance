@@ -127,6 +127,9 @@ mod test {
         let client = crate::Client::default();
         let thumbnail = client.warning_thumbnail(None);
 
-        assert_eq!(thumbnail, "https://webservice.meteofrance.com/v3/warning/thumbnail?&token=__Wj7dVSTjV9YGu1guveLyDq0g7S7TfTjaHBTPTpO0kj8__&domain=france");
+        assert_eq!(
+            thumbnail,
+            "https://webservice.meteofrance.com/v3/warning/thumbnail?&token=__Wj7dVSTjV9YGu1guveLyDq0g7S7TfTjaHBTPTpO0kj8__&domain=france"
+        );
     }
 }

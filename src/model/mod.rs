@@ -54,7 +54,10 @@ mod test {
         let client = crate::Client::default();
         let picture = client.picture_of_the_day(None)?;
 
-        assert_eq!(picture.image_url, "https://webservice.meteofrance.com/v2/report?domain=france&report_type=observation&report_subtype=image%20du%20jour&format=jpg&token=__Wj7dVSTjV9YGu1guveLyDq0g7S7TfTjaHBTPTpO0kj8__");
+        assert_eq!(
+            picture.image_url,
+            "https://webservice.meteofrance.com/v2/report?domain=france&report_type=observation&report_subtype=image%20du%20jour&format=jpg&token=__Wj7dVSTjV9YGu1guveLyDq0g7S7TfTjaHBTPTpO0kj8__"
+        );
 
         Ok(())
     }
