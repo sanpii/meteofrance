@@ -1,8 +1,8 @@
 pub mod dictionary;
+pub mod forecast;
 
 pub(crate) mod de;
 
-mod forecast;
 mod observation;
 mod phenomenoms;
 mod place;
