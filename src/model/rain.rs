@@ -24,7 +24,7 @@ mod test {
         let client = crate::Client::default();
         let rain = client.rain(48.8075, 2.24028);
 
-        assert!(dbg!(rain).is_ok());
+        std::assert_matches!(rain, Ok(_));
 
         Ok(())
     }

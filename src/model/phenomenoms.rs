@@ -50,7 +50,7 @@ mod test {
 
         let client = crate::Client::default();
         let phenomenoms = client.warning_current_phenomenoms("32", Some(1), None);
-        assert!(dbg!(phenomenoms).is_ok());
+        std::assert_matches!(phenomenoms, Ok(_));
 
         Ok(())
     }

@@ -87,7 +87,7 @@ mod test {
     fn full() -> crate::Result {
         let client = crate::Client::default();
         let warning = client.warning_full("32", None);
-        assert!(dbg!(warning).is_ok());
+        std::assert_matches!(warning, Ok(_));
 
         Ok(())
     }

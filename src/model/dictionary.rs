@@ -53,7 +53,7 @@ mod test {
         let client = crate::Client::default();
         let dictionary = client.warning_dictionary();
 
-        assert!(dbg!(dictionary).is_ok());
+        std::debug_assert_matches!(dictionary, Ok(_));
 
         Ok(())
     }

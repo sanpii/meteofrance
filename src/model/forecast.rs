@@ -160,7 +160,7 @@ mod test {
         let client = crate::Client::default();
 
         let forecast = client.forecast(48.8075, 2.24028);
-        assert!(dbg!(forecast).is_ok());
+        std::assert_matches!(forecast, Ok(_));
 
         Ok(())
     }
@@ -212,7 +212,7 @@ mod test {
         };
 
         let forecast = client.forecast_for_place(&place);
-        assert!(dbg!(forecast).is_ok());
+        std::assert_matches!(forecast, Ok(_));
 
         Ok(())
     }
