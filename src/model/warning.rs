@@ -9,8 +9,10 @@ pub struct Warning {
     pub color_max: u16,
     pub timelaps: Vec<Timelap>,
     pub phenomenons_items: Vec<super::phenomenoms::Color>,
-    pub advices: Option<String>,
-    pub consequences: Option<String>,
+    #[serde(deserialize_with = "super::de::optional_vec")]
+    pub advices: Vec<Advice>,
+    #[serde(deserialize_with = "super::de::optional_vec")]
+    pub consequences: Vec<Consequence>,
     pub max_count_items: Option<usize>,
     pub comments: Comments,
     pub text: Option<Text>,
@@ -32,6 +34,22 @@ pub struct TimelapsItem {
     #[serde(deserialize_with = "super::de::timestamp")]
     pub end_time: chrono::NaiveDateTime,
     pub color_id: u16,
+}
+
+#[derive(Clone, Debug, PartialEq, serde::Deserialize)]
+#[cfg_attr(test, serde(deny_unknown_fields))]
+pub struct Advice {
+    pub phenomenon_id: String,
+    pub phenomenon_max_color_id: u16,
+    pub text_advice: Option<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, serde::Deserialize)]
+#[cfg_attr(test, serde(deny_unknown_fields))]
+pub struct Consequence {
+    pub phenomenon_id: String,
+    pub phenomenon_max_color_id: u16,
+    pub text_consequence: Option<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
@@ -79,6 +97,7 @@ pub struct TermItem {
 pub struct SubdivisionText {
     pub underline_text: String,
     pub text: Vec<String>,
+    pub bold_text: String,
 }
 
 #[cfg(test)]

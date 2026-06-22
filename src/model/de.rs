@@ -7,6 +7,17 @@ where
     u8::deserialize(deserializer).map(|x| x == 1)
 }
 
+pub fn optional_vec<'de, D, T: serde::de::DeserializeOwned>(
+    deserializer: D,
+) -> Result<Vec<T>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    let opt = Option::<Vec<T>>::deserialize(deserializer)?;
+
+    Ok(opt.unwrap_or_default())
+}
+
 pub fn rain_snow_limit<'de, D>(deserializer: D) -> Result<Option<u32>, D::Error>
 where
     D: serde::Deserializer<'de>,
