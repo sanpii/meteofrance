@@ -64,6 +64,7 @@ pub struct Gridded {
     #[serde(rename = "T")]
     temperature: f32,
     wind_speed: f32,
+    wind_speed_gust: u32,
     wind_direction: i32,
     wind_icon: String,
     weather_icon: String,
