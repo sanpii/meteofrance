@@ -2,9 +2,9 @@
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Warning {
     #[serde(deserialize_with = "super::de::timestamp")]
-    pub update_time: chrono::NaiveDateTime,
+    pub update_time: jiff::civil::DateTime,
     #[serde(deserialize_with = "super::de::timestamp")]
-    pub end_validity_time: chrono::NaiveDateTime,
+    pub end_validity_time: jiff::civil::DateTime,
     pub domain_id: String,
     pub color_max: u16,
     pub timelaps: Vec<Timelap>,
@@ -30,9 +30,9 @@ pub struct Timelap {
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct TimelapsItem {
     #[serde(deserialize_with = "super::de::timestamp")]
-    pub begin_time: chrono::NaiveDateTime,
+    pub begin_time: jiff::civil::DateTime,
     #[serde(deserialize_with = "super::de::timestamp")]
-    pub end_time: chrono::NaiveDateTime,
+    pub end_time: jiff::civil::DateTime,
     pub color_id: u16,
 }
 

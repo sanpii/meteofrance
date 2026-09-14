@@ -42,15 +42,15 @@ where
     RainShowLimit::deserialize(deserializer).map(Into::into)
 }
 
-pub fn timestamp<'de, D>(deserializer: D) -> Result<chrono::NaiveDateTime, D::Error>
+pub fn timestamp<'de, D>(deserializer: D) -> Result<jiff::civil::DateTime, D::Error>
 where
     D: serde::Deserializer<'de>,
 {
     let timestamp = i64::deserialize(deserializer)?;
 
-    chrono::DateTime::from_timestamp(timestamp, 0)
-        .map(|x| x.naive_local())
-        .ok_or_else(|| serde::de::Error::custom(format!("Invalid timestamp: {timestamp}")))
+    jiff::Timestamp::new(timestamp, 0)
+        .map(|x| x.to_zoned(jiff::tz::TimeZone::UTC).datetime())
+        .map_err(|_| serde::de::Error::custom(format!("Invalid timestamp: {timestamp}")))
 }
 
 pub fn weather<'de, D>(deserializer: D) -> Result<Option<crate::model::forecast::Weather>, D::Error>

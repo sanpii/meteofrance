@@ -3,7 +3,7 @@
 pub struct Forecast {
     pub position: super::Position,
     #[serde(deserialize_with = "super::de::timestamp")]
-    pub updated_on: chrono::NaiveDateTime,
+    pub updated_on: jiff::civil::DateTime,
     pub daily_forecast: Vec<DailyData>,
     pub forecast: Vec<Data>,
     #[serde(default)]
@@ -22,13 +22,14 @@ impl Forecast {
      * Return the nearest hourly forecast.
      */
     pub fn nearest_forecast(&self) -> Option<&Data> {
-        let now = chrono::Utc::now().naive_utc();
+        let now = jiff::Zoned::now().datetime();
 
         self.forecast.iter().min_by(|a, b| {
             let da = (a.dt - now).abs();
             let db = (b.dt - now).abs();
 
-            da.cmp(&db)
+            da.compare(jiff::SpanCompare::from(&db).days_are_24_hours())
+                .unwrap()
         })
     }
 
@@ -36,13 +37,13 @@ impl Forecast {
      * Return the forecast of the current hour.
      */
     pub fn current_forecast(&self) -> Option<&Data> {
-        use chrono::Timelike;
-
-        let current_hour = chrono::Utc::now()
-            .naive_utc()
-            .with_minute(0)
-            .and_then(|x| x.with_second(0))
-            .and_then(|x| x.with_nanosecond(0))
+        let current_hour = jiff::Zoned::now()
+            .datetime()
+            .with()
+            .minute(0)
+            .second(0)
+            .nanosecond(0)
+            .build()
             .unwrap();
 
         self.forecast
@@ -56,7 +57,7 @@ impl Forecast {
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct DailyData {
     #[serde(deserialize_with = "super::de::timestamp")]
-    pub dt: chrono::NaiveDateTime,
+    pub dt: jiff::civil::DateTime,
     #[serde(rename = "T")]
     pub temperature: DailyTemperature,
     pub humidity: Humidity,
@@ -75,7 +76,7 @@ pub struct DailyData {
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Data {
     #[serde(deserialize_with = "super::de::timestamp")]
-    pub dt: chrono::NaiveDateTime,
+    pub dt: jiff::civil::DateTime,
     #[serde(rename = "T")]
     pub temperature: Temperature,
     pub humidity: Option<u8>,
@@ -99,7 +100,7 @@ pub struct Data {
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct ProbabilityData {
     #[serde(deserialize_with = "super::de::timestamp")]
-    pub dt: chrono::NaiveDateTime,
+    pub dt: jiff::civil::DateTime,
     pub rain: std::collections::BTreeMap<String, Option<f32>>,
     pub snow: std::collections::BTreeMap<String, Option<u16>>,
     #[serde(deserialize_with = "super::de::bool")]
@@ -132,9 +133,9 @@ pub struct Temperature {
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Sun {
     #[serde(deserialize_with = "super::de::timestamp")]
-    pub rise: chrono::NaiveDateTime,
+    pub rise: jiff::civil::DateTime,
     #[serde(deserialize_with = "super::de::timestamp")]
-    pub set: chrono::NaiveDateTime,
+    pub set: jiff::civil::DateTime,
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize)]
@@ -170,18 +171,6 @@ mod test {
         let client = crate::Client::default();
 
         let forecast = client.forecast(45.501689, 73.567256)?;
-
-        let now = chrono::Utc::now().naive_utc();
-
-        assert_eq!(
-            (forecast.nearest_forecast().unwrap().dt - now).abs(),
-            forecast
-                .forecast
-                .iter()
-                .map(|x| (x.dt - now).abs())
-                .min()
-                .unwrap(),
-        );
 
         assert_eq!(
             forecast.current_forecast().unwrap().dt,

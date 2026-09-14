@@ -2,9 +2,9 @@
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Phenomenoms {
     #[serde(deserialize_with = "super::de::timestamp")]
-    pub update_time: chrono::NaiveDateTime,
+    pub update_time: jiff::civil::DateTime,
     #[serde(deserialize_with = "super::de::timestamp")]
-    pub end_validity_time: chrono::NaiveDateTime,
+    pub end_validity_time: jiff::civil::DateTime,
     pub domain_id: String,
     pub phenomenons_max_colors: Vec<Color>,
 }

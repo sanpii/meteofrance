@@ -3,7 +3,7 @@
 pub struct Rain {
     pub position: super::Position,
     #[serde(deserialize_with = "super::de::timestamp")]
-    pub updated_on: chrono::NaiveDateTime,
+    pub updated_on: jiff::civil::DateTime,
     pub forecast: Vec<Forecast>,
     pub quality: u8,
 }
@@ -12,7 +12,7 @@ pub struct Rain {
 #[cfg_attr(test, serde(deny_unknown_fields))]
 pub struct Forecast {
     #[serde(deserialize_with = "super::de::timestamp")]
-    pub dt: chrono::NaiveDateTime,
+    pub dt: jiff::civil::DateTime,
     pub rain: u8,
     pub desc: String,
 }
