@@ -11,6 +11,7 @@ impl Default for Client {
 }
 
 impl Client {
+    #[must_use]
     pub fn new(access_token: Option<&str>, language: Option<&str>) -> Self {
         Self {
             language: language.unwrap_or("fr").to_string(),
@@ -188,6 +189,7 @@ impl Client {
     /**
      * Retrieve the thumbnail URL of the weather phenomenoms or alerts map.
      */
+    #[must_use]
     pub fn warning_thumbnail(&self, domain: Option<&str>) -> String {
         format!(
             "{}/v3/warning/thumbnail?&token={}&domain={}",

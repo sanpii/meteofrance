@@ -14,6 +14,7 @@ impl Forecast {
     /**
      * Return the forecast for today.
      */
+    #[must_use]
     pub fn today_forecast(&self) -> Option<&DailyData> {
         self.daily_forecast.first()
     }
@@ -21,6 +22,7 @@ impl Forecast {
     /**
      * Return the nearest hourly forecast.
      */
+    #[must_use]
     pub fn nearest_forecast(&self) -> Option<&Data> {
         let now = jiff::Zoned::now().datetime();
 
@@ -36,6 +38,7 @@ impl Forecast {
     /**
      * Return the forecast of the current hour.
      */
+    #[must_use]
     pub fn current_forecast(&self) -> Option<&Data> {
         let current_hour = jiff::Zoned::now()
             .datetime()
@@ -170,7 +173,7 @@ mod test {
     async fn world() -> crate::Result {
         let client = crate::Client::default();
 
-        let forecast = client.forecast(45.501689, 73.567256).await?;
+        let forecast = client.forecast(45.501_689, 73.567_256).await?;
 
         assert_eq!(
             forecast.current_forecast().unwrap().dt,

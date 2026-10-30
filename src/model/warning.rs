@@ -113,14 +113,6 @@ mod test {
 
     #[tokio::test]
     async fn with_coastal_bulletin() -> crate::Result {
-        let client = crate::Client::default();
-
-        let tests = [
-            ("13", true, false),
-            ("32", false, false),
-            ("74", false, true),
-        ];
-
         fn phenomenon_by_id<'a>(
             warning: &'a crate::model::Warning,
             id: &str,
@@ -130,6 +122,14 @@ mod test {
                 .iter()
                 .find(|x| x.phenomenon_id == id)
         }
+
+        let client = crate::Client::default();
+
+        let tests = [
+            ("13", true, false),
+            ("32", false, false),
+            ("74", false, true),
+        ];
 
         for (dep, coastal, avalanche) in tests {
             let warning = client.warning_full(dep, Some(true)).await?;

@@ -10,6 +10,7 @@ pub struct Phenomenoms {
 }
 
 impl Phenomenoms {
+    #[must_use]
     pub fn domain_max_color(&self) -> u16 {
         self.phenomenons_max_colors
             .iter()
@@ -59,14 +60,6 @@ mod test {
 
     #[tokio::test]
     async fn with_coastal_bulletin() -> crate::Result {
-        let client = crate::Client::default();
-
-        let tests = [
-            ("13", true, false),
-            ("32", false, false),
-            ("74", false, true),
-        ];
-
         fn phenomenon_by_id<'a>(
             phenomenoms: &'a crate::model::Phenomenoms,
             id: &str,
@@ -76,6 +69,14 @@ mod test {
                 .iter()
                 .find(|x| x.phenomenon_id == id)
         }
+
+        let client = crate::Client::default();
+
+        let tests = [
+            ("13", true, false),
+            ("32", false, false),
+            ("74", false, true),
+        ];
 
         for (dep, coastal, avalanche) in tests {
             let phenomenoms = client

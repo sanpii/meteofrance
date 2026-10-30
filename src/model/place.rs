@@ -29,7 +29,7 @@ mod test {
         let client = crate::Client::default();
         let places = client.search_places("montreal", None, None).await?;
 
-        assert!(!places.is_empty());
+        assert_ne!(places, []);
 
         assert_eq!(
             places[0],
@@ -55,7 +55,7 @@ mod test {
             .search_places("montreal", Some(45.50884), Some(-73.58))
             .await?;
 
-        assert!(!places.is_empty());
+        assert_ne!(places, []);
 
         assert_eq!(
             places[0],
@@ -79,7 +79,7 @@ mod test {
         let client = crate::Client::default();
         let places = client.search_places("sqdmfkjdsmkf", None, None).await?;
 
-        assert!(places.is_empty());
+        assert_eq!(places, []);
 
         Ok(())
     }

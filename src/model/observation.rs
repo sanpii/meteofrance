@@ -9,34 +9,42 @@ pub struct Observation {
 }
 
 impl Observation {
+    #[must_use]
     pub fn timezone(&self) -> &str {
         self.properties.timezone.as_str()
     }
 
+    #[must_use]
     pub fn time(&self) -> &str {
         self.properties.gridded.time.as_str()
     }
 
+    #[must_use]
     pub fn temperature(&self) -> f32 {
         self.properties.gridded.temperature
     }
 
+    #[must_use]
     pub fn wind_speed(&self) -> f32 {
         self.properties.gridded.wind_speed
     }
 
+    #[must_use]
     pub fn wind_direction(&self) -> i32 {
         self.properties.gridded.wind_direction
     }
 
+    #[must_use]
     pub fn wind_icon(&self) -> &str {
         self.properties.gridded.wind_icon.as_str()
     }
 
+    #[must_use]
     pub fn weather_icon(&self) -> &str {
         self.properties.gridded.weather_icon.as_str()
     }
 
+    #[must_use]
     pub fn weather_description(&self) -> &str {
         self.properties.gridded.weather_description.as_str()
     }
@@ -87,7 +95,7 @@ mod test {
     async fn world() -> crate::Result {
         let client = crate::Client::default();
 
-        let rain = client.observation(45.5016889, 73.567256).await;
+        let rain = client.observation(45.501_688_9, 73.567_256).await;
         assert!(rain.is_err());
 
         Ok(())

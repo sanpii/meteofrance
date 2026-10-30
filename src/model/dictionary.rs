@@ -6,10 +6,12 @@ pub struct Dictionary {
 }
 
 impl Dictionary {
+    #[must_use]
     pub fn color_by_id(&self, id: u16) -> Option<&Color> {
         self.colors.iter().find(|x| x.id == id)
     }
 
+    #[must_use]
     pub fn color_name_by_id(&self, id: u16) -> Option<&str> {
         self.colors
             .iter()
@@ -17,10 +19,12 @@ impl Dictionary {
             .map(|x| x.name.as_str())
     }
 
+    #[must_use]
     pub fn phenomenon_by_id(&self, id: u16) -> Option<&Phenomenon> {
         self.phenomenons.iter().find(|x| x.id == id)
     }
 
+    #[must_use]
     pub fn phenomenon_name_by_id(&self, id: u16) -> Option<&str> {
         self.phenomenons
             .iter()
