@@ -49,10 +49,10 @@ pub struct Picture {
 
 #[cfg(test)]
 mod test {
-    #[test]
-    fn picture_of_the_day() -> crate::Result {
+    #[tokio::test]
+    async fn picture_of_the_day() -> crate::Result {
         let client = crate::Client::default();
-        let picture = client.picture_of_the_day(None)?;
+        let picture = client.picture_of_the_day(None).await?;
 
         assert_eq!(
             picture.image_url,

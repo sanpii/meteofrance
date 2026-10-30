@@ -24,7 +24,7 @@ impl Client {
      * You can add GPS coordinates in parameter to search places arround a given
      * location.
      */
-    pub fn search_places(
+    pub async fn search_places(
         &self,
         search_query: &str,
         latitude: Option<f32>,
@@ -40,13 +40,13 @@ impl Client {
             params.insert("lon", longitude.to_string());
         }
 
-        self.session.get("places", &params)
+        self.session.get("places", &params).await
     }
 
     /**
      * Retrieve the weather observation for a given GPS location.
      */
-    pub fn observation(
+    pub async fn observation(
         &self,
         latitude: f64,
         longitude: f64,
@@ -56,51 +56,55 @@ impl Client {
         params.insert("lat", latitude.to_string());
         params.insert("lang", self.language.clone());
 
-        self.session.get("v2/observation", &params)
+        self.session.get("v2/observation", &params).await
     }
 
     /**
      * Retrieve the weather observation for a given Place instance.
      */
-    pub fn observation_for_place(
+    pub async fn observation_for_place(
         &self,
         place: &crate::model::Place,
     ) -> crate::Result<crate::model::Observation> {
-        self.observation(place.lat, place.lon)
+        self.observation(place.lat, place.lon).await
     }
 
     /**
      * Retrieve the weather forecast for a given GPS location.
      */
-    pub fn forecast(&self, latitude: f64, longitude: f64) -> crate::Result<crate::model::Forecast> {
+    pub async fn forecast(
+        &self,
+        latitude: f64,
+        longitude: f64,
+    ) -> crate::Result<crate::model::Forecast> {
         let mut params = std::collections::HashMap::new();
         params.insert("lon", longitude.to_string());
         params.insert("lat", latitude.to_string());
         params.insert("lang", self.language.clone());
 
-        self.session.get("forecast", &params)
+        self.session.get("forecast", &params).await
     }
 
     /**
      * Retrieve the weather forecast for a given Place instance.
      */
-    pub fn forecast_for_place(
+    pub async fn forecast_for_place(
         &self,
         place: &crate::model::Place,
     ) -> crate::Result<crate::model::Forecast> {
-        self.forecast(place.lat, place.lon)
+        self.forecast(place.lat, place.lon).await
     }
 
     /**
      * Retrieve the next 1 hour rain forecast for a given GPS the location.
      */
-    pub fn rain(&self, latitude: f32, longitude: f32) -> crate::Result<crate::model::Rain> {
+    pub async fn rain(&self, latitude: f32, longitude: f32) -> crate::Result<crate::model::Rain> {
         let mut params = std::collections::HashMap::new();
         params.insert("lon", longitude.to_string());
         params.insert("lat", latitude.to_string());
         params.insert("lang", self.language.clone());
 
-        self.session.get("rain", &params)
+        self.session.get("rain", &params).await
     }
 
     /**
@@ -115,7 +119,7 @@ impl Client {
      * - `with_coastal_bulletin`: Optional; If set to True (default is False), you can get the
      *   basic bulletin and coastal bulletin merged.
      */
-    pub fn warning_current_phenomenoms(
+    pub async fn warning_current_phenomenoms(
         &self,
         domain: &str,
         depth: Option<i32>,
@@ -127,11 +131,16 @@ impl Client {
 
         let mut phenomenoms = self
             .session
-            .get::<crate::model::Phenomenoms>("v3/warning/currentphenomenons", &params)?;
+            .get::<crate::model::Phenomenoms>("v3/warning/currentphenomenons", &params)
+            .await?;
 
         if with_coastal_bulletin == Some(true) && crate::COASTAL_DEPARTMENT_LIST.contains(&domain) {
-            let mut coastal =
-                self.warning_current_phenomenoms(&format!("{domain}10"), None, Some(false))?;
+            let mut coastal = Box::pin(self.warning_current_phenomenoms(
+                &format!("{domain}10"),
+                None,
+                Some(false),
+            ))
+            .await?;
             phenomenoms
                 .phenomenons_max_colors
                 .append(&mut coastal.phenomenons_max_colors);
@@ -152,7 +161,7 @@ impl Client {
      * - `with_coastal_bulletin`: Optional; If set to True (default is False), you can get the
      *   basic bulletin and coastal bulletin merged.
      */
-    pub fn warning_full(
+    pub async fn warning_full(
         &self,
         domain: &str,
         with_coastal_bulletin: Option<bool>,
@@ -162,10 +171,12 @@ impl Client {
 
         let mut warning = self
             .session
-            .get::<crate::model::Warning>("v3/warning/full", &params)?;
+            .get::<crate::model::Warning>("v3/warning/full", &params)
+            .await?;
 
         if with_coastal_bulletin == Some(true) && crate::COASTAL_DEPARTMENT_LIST.contains(&domain) {
-            let mut coastal = self.warning_full(&format!("{domain}10"), Some(false))?;
+            let mut coastal =
+                Box::pin(self.warning_full(&format!("{domain}10"), Some(false))).await?;
             warning
                 .phenomenons_items
                 .append(&mut coastal.phenomenons_items);
@@ -192,24 +203,27 @@ impl Client {
      * This dictionary includes information about various meteorological
      * phenomena and color codes used for weather warnings.
      */
-    pub fn warning_dictionary(&self) -> crate::Result<crate::model::Dictionary> {
+    pub async fn warning_dictionary(&self) -> crate::Result<crate::model::Dictionary> {
         let mut params = std::collections::HashMap::new();
         params.insert("lang", self.language.clone());
 
-        self.session.get("v3/warning/dictionary", &params)
+        self.session.get("v3/warning/dictionary", &params).await
     }
 
     /**
      * Retrieve the picture of the day image URL & description.
      */
-    pub fn picture_of_the_day(&self, domain: Option<&str>) -> crate::Result<crate::model::Picture> {
+    pub async fn picture_of_the_day(
+        &self,
+        domain: Option<&str>,
+    ) -> crate::Result<crate::model::Picture> {
         let mut params = std::collections::HashMap::new();
         params.insert("domain", domain.unwrap_or("france").to_string());
         params.insert("report_type", "observation".to_string());
         params.insert("report_subtype", "image du jour".to_string());
         params.insert("format", "txt".to_string());
 
-        let description: String = self.session.text("v2/report", &params)?;
+        let description: String = self.session.text("v2/report", &params).await?;
 
         let picture = crate::model::Picture {
             image_url: format!(

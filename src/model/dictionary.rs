@@ -48,20 +48,18 @@ pub struct Color {
 
 #[cfg(test)]
 mod test {
-    #[test]
-    fn get() -> crate::Result {
+    #[tokio::test]
+    async fn get() {
         let client = crate::Client::default();
-        let dictionary = client.warning_dictionary();
+        let dictionary = client.warning_dictionary().await;
 
         std::debug_assert_matches!(dictionary, Ok(_));
-
-        Ok(())
     }
 
-    #[test]
-    fn phenomenon_by_id() -> crate::Result {
+    #[tokio::test]
+    async fn phenomenon_by_id() -> crate::Result {
         let client = crate::Client::default();
-        let dictionary = client.warning_dictionary()?;
+        let dictionary = client.warning_dictionary().await?;
 
         assert_eq!(
             dictionary.phenomenon_by_id(1),
@@ -74,10 +72,10 @@ mod test {
         Ok(())
     }
 
-    #[test]
-    fn phenomenon_name_by_id() -> crate::Result {
+    #[tokio::test]
+    async fn phenomenon_name_by_id() -> crate::Result {
         let client = crate::Client::default();
-        let dictionary = client.warning_dictionary()?;
+        let dictionary = client.warning_dictionary().await?;
 
         assert_eq!(
             dictionary.phenomenon_name_by_id(2),
@@ -87,10 +85,10 @@ mod test {
         Ok(())
     }
 
-    #[test]
-    fn color_by_id() -> crate::Result {
+    #[tokio::test]
+    async fn color_by_id() -> crate::Result {
         let client = crate::Client::default();
-        let dictionary = client.warning_dictionary()?;
+        let dictionary = client.warning_dictionary().await?;
 
         assert_eq!(
             dictionary.color_by_id(1),
@@ -105,10 +103,10 @@ mod test {
         Ok(())
     }
 
-    #[test]
-    fn color_name_by_id() -> crate::Result {
+    #[tokio::test]
+    async fn color_name_by_id() -> crate::Result {
         let client = crate::Client::default();
-        let dictionary = client.warning_dictionary()?;
+        let dictionary = client.warning_dictionary().await?;
 
         assert_eq!(dictionary.color_name_by_id(1), Some("vert"));
 

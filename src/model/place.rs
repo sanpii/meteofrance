@@ -24,10 +24,10 @@ impl std::fmt::Display for Place {
 
 #[cfg(test)]
 mod test {
-    #[test]
-    fn get() -> crate::Result {
+    #[tokio::test]
+    async fn get() -> crate::Result {
         let client = crate::Client::default();
-        let places = client.search_places("montreal", None, None)?;
+        let places = client.search_places("montreal", None, None).await?;
 
         assert!(!places.is_empty());
 
@@ -48,10 +48,12 @@ mod test {
         Ok(())
     }
 
-    #[test]
-    fn with_gps() -> crate::Result {
+    #[tokio::test]
+    async fn with_gps() -> crate::Result {
         let client = crate::Client::default();
-        let places = client.search_places("montreal", Some(45.50884), Some(-73.58))?;
+        let places = client
+            .search_places("montreal", Some(45.50884), Some(-73.58))
+            .await?;
 
         assert!(!places.is_empty());
 
@@ -72,23 +74,24 @@ mod test {
         Ok(())
     }
 
-    #[test]
-    fn not_found() -> crate::Result {
+    #[tokio::test]
+    async fn not_found() -> crate::Result {
         let client = crate::Client::default();
-        let places = client.search_places("sqdmfkjdsmkf", None, None)?;
+        let places = client.search_places("sqdmfkjdsmkf", None, None).await?;
 
         assert!(places.is_empty());
 
         Ok(())
     }
 
-    #[test]
-    fn print() -> crate::Result {
+    #[tokio::test]
+    async fn print() -> crate::Result {
         let client = crate::Client::default();
 
-        let places_in_france = client.search_places("Montréal", None, None)?;
-        let places_not_in_france =
-            client.search_places("Montréal", Some(45.50884), Some(-73.58))?;
+        let places_in_france = client.search_places("Montréal", None, None).await?;
+        let places_not_in_france = client
+            .search_places("Montréal", Some(45.50884), Some(-73.58))
+            .await?;
 
         assert_eq!(
             places_in_france[0].to_string(),

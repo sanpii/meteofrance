@@ -102,17 +102,17 @@ pub struct SubdivisionText {
 
 #[cfg(test)]
 mod test {
-    #[test]
-    fn full() -> crate::Result {
+    #[tokio::test]
+    async fn full() -> crate::Result {
         let client = crate::Client::default();
-        let warning = client.warning_full("32", None);
+        let warning = client.warning_full("32", None).await;
         std::assert_matches!(warning, Ok(_));
 
         Ok(())
     }
 
-    #[test]
-    fn with_coastal_bulletin() -> crate::Result {
+    #[tokio::test]
+    async fn with_coastal_bulletin() -> crate::Result {
         let client = crate::Client::default();
 
         let tests = [
@@ -132,7 +132,7 @@ mod test {
         }
 
         for (dep, coastal, avalanche) in tests {
-            let warning = client.warning_full(dep, Some(true))?;
+            let warning = client.warning_full(dep, Some(true)).await?;
 
             assert_eq!(phenomenon_by_id(&warning, "8").is_some(), avalanche);
             assert_eq!(phenomenon_by_id(&warning, "9").is_some(), coastal);

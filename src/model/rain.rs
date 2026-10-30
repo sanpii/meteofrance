@@ -19,20 +19,20 @@ pub struct Forecast {
 
 #[cfg(test)]
 mod test {
-    #[test]
-    fn get() -> crate::Result {
+    #[tokio::test]
+    async fn get() -> crate::Result {
         let client = crate::Client::default();
-        let rain = client.rain(48.8075, 2.24028);
+        let rain = client.rain(48.8075, 2.24028).await;
 
         std::assert_matches!(rain, Ok(_));
 
         Ok(())
     }
 
-    #[test]
-    fn not_covered() -> crate::Result {
+    #[tokio::test]
+    async fn not_covered() -> crate::Result {
         let client = crate::Client::default();
-        let rain = client.rain(45.508, -73.58);
+        let rain = client.rain(45.508, -73.58).await;
 
         assert!(rain.is_err());
 

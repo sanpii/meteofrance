@@ -12,7 +12,7 @@ thiserror = "2.0"
 
 [dependencies.reqwest]
 version = "0.13"
-features = ["blocking", "query", "json"]
+features = ["query", "json"]
 
 [dependencies.serde]
 version = "1.0"
@@ -20,3 +20,7 @@ features = ["derive"]
 
 [dev-dependencies]
 serde_json = "1.0"
+
+[dev-dependencies.tokio]
+version = "1.54"
+features = ["macros"]

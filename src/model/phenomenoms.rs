@@ -28,8 +28,8 @@ pub struct Color {
 
 #[cfg(test)]
 mod test {
-    #[test]
-    fn get() -> crate::Result {
+    #[tokio::test]
+    async fn get() -> crate::Result {
         let json = r#"
 {
     "update_time": 1591279200,
@@ -49,14 +49,16 @@ mod test {
         assert_eq!(phenomenoms.domain_max_color(), 3);
 
         let client = crate::Client::default();
-        let phenomenoms = client.warning_current_phenomenoms("32", Some(1), None);
+        let phenomenoms = client
+            .warning_current_phenomenoms("32", Some(1), None)
+            .await;
         std::assert_matches!(phenomenoms, Ok(_));
 
         Ok(())
     }
 
-    #[test]
-    fn with_coastal_bulletin() -> crate::Result {
+    #[tokio::test]
+    async fn with_coastal_bulletin() -> crate::Result {
         let client = crate::Client::default();
 
         let tests = [
@@ -76,7 +78,9 @@ mod test {
         }
 
         for (dep, coastal, avalanche) in tests {
-            let phenomenoms = client.warning_current_phenomenoms(dep, Some(1), Some(true))?;
+            let phenomenoms = client
+                .warning_current_phenomenoms(dep, Some(1), Some(true))
+                .await?;
 
             assert_eq!(phenomenon_by_id(&phenomenoms, "8").is_some(), avalanche);
             assert_eq!(phenomenon_by_id(&phenomenoms, "9").is_some(), coastal);

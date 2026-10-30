@@ -73,28 +73,28 @@ pub struct Gridded {
 
 #[cfg(test)]
 mod test {
-    #[test]
-    fn france() -> crate::Result {
+    #[tokio::test]
+    async fn france() -> crate::Result {
         let client = crate::Client::default();
 
-        let rain = client.observation(48.8075, 2.24028);
+        let rain = client.observation(48.8075, 2.24028).await;
         std::assert_matches!(rain, Ok(_));
 
         Ok(())
     }
 
-    #[test]
-    fn world() -> crate::Result {
+    #[tokio::test]
+    async fn world() -> crate::Result {
         let client = crate::Client::default();
 
-        let rain = client.observation(45.5016889, 73.567256);
+        let rain = client.observation(45.5016889, 73.567256).await;
         assert!(rain.is_err());
 
         Ok(())
     }
 
-    #[test]
-    fn place() -> crate::Result {
+    #[tokio::test]
+    async fn place() -> crate::Result {
         let client = crate::Client::default();
 
         let place = crate::model::Place {
@@ -108,7 +108,7 @@ mod test {
             post_code: Some("74220".to_string()),
         };
 
-        let rain = client.observation_for_place(&place);
+        let rain = client.observation_for_place(&place).await;
         std::assert_matches!(rain, Ok(_));
 
         Ok(())

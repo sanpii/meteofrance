@@ -156,21 +156,21 @@ pub struct Weather {
 
 #[cfg(test)]
 mod test {
-    #[test]
-    fn france() -> crate::Result {
+    #[tokio::test]
+    async fn france() -> crate::Result {
         let client = crate::Client::default();
 
-        let forecast = client.forecast(48.8075, 2.24028);
+        let forecast = client.forecast(48.8075, 2.24028).await;
         std::assert_matches!(forecast, Ok(_));
 
         Ok(())
     }
 
-    #[test]
-    fn world() -> crate::Result {
+    #[tokio::test]
+    async fn world() -> crate::Result {
         let client = crate::Client::default();
 
-        let forecast = client.forecast(45.501689, 73.567256)?;
+        let forecast = client.forecast(45.501689, 73.567256).await?;
 
         assert_eq!(
             forecast.current_forecast().unwrap().dt,
@@ -185,8 +185,8 @@ mod test {
         Ok(())
     }
 
-    #[test]
-    fn place() -> crate::Result {
+    #[tokio::test]
+    async fn place() -> crate::Result {
         let client = crate::Client::default();
 
         let place = crate::model::Place {
@@ -200,7 +200,7 @@ mod test {
             post_code: Some("74220".to_string()),
         };
 
-        let forecast = client.forecast_for_place(&place);
+        let forecast = client.forecast_for_place(&place).await;
         std::assert_matches!(forecast, Ok(_));
 
         Ok(())
