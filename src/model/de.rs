@@ -49,7 +49,7 @@ where
     let timestamp = i64::deserialize(deserializer)?;
 
     jiff::Timestamp::new(timestamp, 0)
-        .map(|x| x.to_zoned(jiff::tz::TimeZone::UTC).datetime())
+        .map(|x| x.to_zoned_datetime(jiff::tz::TimeZone::UTC).datetime())
         .map_err(|_| serde::de::Error::custom(format!("Invalid timestamp: {timestamp}")))
 }
 

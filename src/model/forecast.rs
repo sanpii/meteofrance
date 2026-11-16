@@ -24,7 +24,7 @@ impl Forecast {
      */
     #[must_use]
     pub fn nearest_forecast(&self) -> Option<&Data> {
-        let now = jiff::Zoned::now().datetime();
+        let now = jiff::ZonedDateTime::now().datetime();
 
         self.forecast.iter().min_by(|a, b| {
             let da = (a.dt - now).abs();
@@ -40,7 +40,7 @@ impl Forecast {
      */
     #[must_use]
     pub fn current_forecast(&self) -> Option<&Data> {
-        let current_hour = jiff::Zoned::now()
+        let current_hour = jiff::ZonedDateTime::now()
             .datetime()
             .with()
             .minute(0)
